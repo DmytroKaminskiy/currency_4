@@ -50,3 +50,23 @@
 # print(iter_l1.__next__())
 # print(iter_l1.__next__())
 # print(iter_l1.__next__())
+
+# from collections import defaultdict, Counter
+
+# d = {}
+# def foo():
+#     return ['HELLO']
+
+# d = defaultdict(foo)
+# {0: [], 1: []}
+
+# key1 = 1
+# d[key1].append('TEST')
+# print(d)
+# if key1 in d:
+#     d[key1].append('TEST')
+# else:
+#     d[key1] = ['TEST']
+
+# d = [1, 1, 1, 3, 2, 2]
+# print(Counter(d).most_common(1))
