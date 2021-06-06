@@ -2,8 +2,10 @@ from django.shortcuts import render, get_object_or_404
 
 from currency.utils import generate_password as gp
 
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, HttpResponseRedirect
+from annoying.functions import get_object_or_None
 
+from currency.forms import RateForm
 from currency.models import Rate
 
 
@@ -39,3 +41,47 @@ def rate_details(request, pk):
         'object': rate,
     }
     return render(request, 'rate_details.html', context=context)
+
+
+def rate_create(request):
+
+    if request.method == 'POST':
+        form_data = request.POST
+        form = RateForm(form_data)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/currency/rate/list/')
+    elif request.method == 'GET':
+        form = RateForm()
+
+    context = {
+        'message': 'Rate Create',
+        'form': form,
+        'count': Rate.objects.count(),
+    }
+    return render(request, 'rate_create.html', context=context)
+
+
+def rate_update(request, pk):
+    instance = get_object_or_404(Rate, pk=pk)
+
+    if request.method == 'POST':
+        form_data = request.POST
+        form = RateForm(form_data, instance=instance)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/currency/rate/list/')
+    elif request.method == 'GET':
+        form = RateForm(instance=instance)
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'rate_update.html', context=context)
+
+
+def rate_delete(request, pk):
+    instance = get_object_or_None(Rate, pk=pk)
+    if instance is not None:
+        instance.delete()
+    return HttpResponseRedirect('/currency/rate/list/')

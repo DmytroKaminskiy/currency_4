@@ -70,3 +70,14 @@
 
 # d = [1, 1, 1, 3, 2, 2]
 # print(Counter(d).most_common(1))
+
+# class RateForm:
+#     pass
+#
+# form = RateForm()
+
+'''
+1. ContactUs - форма создания объекта
+2. Bank - create & update & delete
+
+'''
