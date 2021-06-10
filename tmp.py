@@ -81,3 +81,12 @@
 2. Bank - create & update & delete
 
 '''
+
+# def foo():
+#
+#     print('HELLO')
+#     print('HELLO')
+#     print('HELLO')
+
+# class A:
+#     param = 1
