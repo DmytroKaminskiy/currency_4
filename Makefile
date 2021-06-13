@@ -14,6 +14,9 @@ migrate:
 generate_data:
 	$(manage_py) generate_data
 
+createsuperuser:
+	$(manage_py) createsuperuser
+
 show_urls:
 	$(manage_py) show_urls
 

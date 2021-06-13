@@ -90,3 +90,26 @@
 
 # class A:
 #     param = 1
+
+# class A:
+#     def foo(self):
+#         print('A foo')
+#
+# class B(A):
+#     def foo(self):
+#         A.foo(self)
+#         print('B foo')
+#
+# print(B.__mro__)
+# a1 = A()
+# b1 = B()
+# a1.foo()
+# b1.foo()
+
+class A:
+    def __str__(self):
+        return f'object A {id(self)}'
+
+a1 = A()
+a1_str = str(a1)
+print(a1_str)

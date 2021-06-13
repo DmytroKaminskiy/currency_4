@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django_extensions',
     "annoying",
     'debug_toolbar',
+    'rangefilter',
+    'import_export',
 
     'currency',
 ]
@@ -135,3 +137,17 @@ INTERNAL_IPS = [
     '127.0.0.1',
     '172.31.69.226',
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'testtestapp454545@gmail.com'
+# EMAIL_HOST_PASSWORD = 'qwerty123456qwerty'
+
+'''
+1. Отправить имейл через вью класс ContactUsCreate
+2. В админке показать записи Bank (Source)
+3. В админке показать все поля ContactUs, создавать-редактировать-удалять нужно запретить
+'''

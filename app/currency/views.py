@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
+from django.core.mail import send_mail
 
 from currency.utils import generate_password as gp
 
 from django.http import HttpResponse
 
-from currency.forms import RateForm
+from currency.forms import RateForm, ContactUsCreate
 from currency.models import Rate, ContactUs
 
 
@@ -30,7 +31,6 @@ class RateDetailView(DetailView):
 
 
 def rate_create(request):
-
     if request.method == 'POST':
         form_data = request.POST
         form = RateForm(form_data)
@@ -69,5 +69,27 @@ class CreateContactUs(CreateView):
         'subject',
         'message',
     )
+    # form_class = ContactUsCreate
     success_url = reverse_lazy('index')
+
     # template_name = 'contact-us-create.html'
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        body = f'''
+        From: {data['email_from']}
+        Topic: {data['subject']}
+        
+        Message:
+        {data['message']}
+        '''
+
+        send_mail(
+            'Contact Us from Client',
+            body,
+            'testtestapp454545@gmail.com',
+            ['fenderoksp@gmail.com'],
+            fail_silently=False,
+        )
+
+        return super().form_valid(form)
