@@ -8,6 +8,9 @@ runserver:
 makemigrations:
 	$(manage_py) makemigrations
 
+worker:
+	cd app && celery -A settings worker -l info
+
 migrate:
 	$(manage_py) migrate
 

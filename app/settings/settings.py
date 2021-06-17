@@ -139,15 +139,10 @@ INTERNAL_IPS = [
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_USE_TLS = True
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER = 'testtestapp454545@gmail.com'
-# EMAIL_HOST_PASSWORD = 'qwerty123456qwerty'
 
-'''
-1. Отправить имейл через вью класс ContactUsCreate
-2. В админке показать записи Bank (Source)
-3. В админке показать все поля ContactUs, создавать-редактировать-удалять нужно запретить
-'''
+CELERY_BROKER_URL = 'amqp://localhost'
+
+try:
+    from settings.settings_local import *
+except ImportError:
+    print('No local settings were found!\n' * 5)

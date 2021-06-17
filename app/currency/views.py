@@ -4,6 +4,7 @@ from django.views.generic import CreateView, ListView, DetailView, UpdateView, D
 from django.core.mail import send_mail
 
 from currency.utils import generate_password as gp
+from currency.tasks import send_email_in_background
 
 from django.http import HttpResponse
 
@@ -79,17 +80,14 @@ class CreateContactUs(CreateView):
         body = f'''
         From: {data['email_from']}
         Topic: {data['subject']}
-        
+
         Message:
         {data['message']}
         '''
 
-        send_mail(
-            'Contact Us from Client',
-            body,
-            'testtestapp454545@gmail.com',
-            ['fenderoksp@gmail.com'],
-            fail_silently=False,
-        )
+        send_email_in_background.delay(body)
+
+        # from .tasks import print_hello_world
+        # print_hello_world.delay()
 
         return super().form_valid(form)
