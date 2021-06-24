@@ -106,10 +106,12 @@
 # a1.foo()
 # b1.foo()
 
-class A:
-    def __str__(self):
-        return f'object A {id(self)}'
+# class A:
+#     def __str__(self):
+#         return f'object A {id(self)}'
+#
+# a1 = A()
+# a1_str = str(a1)
+# print(a1_str)
 
-a1 = A()
-a1_str = str(a1)
-print(a1_str)
+
