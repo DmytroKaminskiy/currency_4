@@ -147,9 +147,13 @@ CELERY_BROKER_URL = 'amqp://localhost'
 CELERY_BEAT_SCHEDULE = {
     'parse_privatbank': {
         'task': 'currency.tasks.parse_privatbank',
-        'schedule': crontab(minute='*/1'),
+        'schedule': crontab(minute='*/15'),
     },
 }
+
+SHELL_PLUS_IMPORTS = [
+    'from currency.tasks import parse_privatbank',
+]
 
 try:
     from settings.settings_local import *

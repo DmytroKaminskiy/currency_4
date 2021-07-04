@@ -2,13 +2,28 @@ from django.db import models
 from currency import choices
 
 
+class Bank(models.Model):
+    name = models.CharField(max_length=64)
+    code_name = models.CharField(
+        max_length=64,
+        unique=True,
+    )
+    url = models.URLField()
+    original_url = models.URLField()
+
+
 class Rate(models.Model):
     # def get_{field_name}_display()
     type = models.PositiveSmallIntegerField(choices=choices.RATE_TYPE_CHOICES)
     sale = models.DecimalField(max_digits=5, decimal_places=2)
     buy = models.DecimalField(max_digits=5, decimal_places=2)
     created = models.DateTimeField(auto_now_add=True)
-    source = models.CharField(max_length=64)
+    bank = models.ForeignKey(
+        Bank,
+        related_name='rates',
+        on_delete=models.CASCADE,
+    )
+    # bank = models.ForeignKey('currency.Bank')
 
     def __str__(self):
         return f'Rate id: {self.id}'
@@ -34,3 +49,9 @@ class Analytics(models.Model):
         unique_together = [
             ['path', 'request_method'],
         ]
+
+"""
+OtO - OneToOne
+OTM - OneToMany
+MtM - many To Many
+"""

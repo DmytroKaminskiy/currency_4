@@ -114,4 +114,72 @@
 # a1_str = str(a1)
 # print(a1_str)
 
+# # is
+# class A:
+#     pass
+#
+#
+# class B(A):  # B is A
+#     pass
+#
+# # has
+# class Element:
+#     def __init__(self, element_type, properties):
+#         self.element_type = element_type
+#         self.properties = properties
+#
+#
+# class ElementFactory:
+#     PROPERTIES = {
+#         'camera': {
+#             'live': 'True',
+#         }
+#     }
+#
+#     # def make(self, element_type, properties={}):
+#     def make(self, element_type, properties=None):
+#
+#         if properties is None:
+#             properties = {}
+#
+#         default_properties = self.__class__.PROPERTIES[element_type]
+#         default_properties.update(properties)
+#
+#         return Element(element_type, default_properties)
+#
+# factory = ElementFactory()
+#
+# e1 = factory.make('camera')
+# print(type(e1))
+# print(e1.element_type)
+# print(e1.properties)
+# e2 = factory.make('camera')
+# print(type(e2))
+# print(e2.element_type)
+# print(e2.properties)
+
+
+# e1 = Element('camera', {'live': 'True'})
+# e2 = Element('camera', {'live': 'True'})
+
+
+
+# class B:
+#     def __init__(self):
+#         self.a = A()
+
+# def gen():
+#     counter = 0
+#     while True:
+#         yield counter
+#         print('GEN')
+#         counter += 2
+#
+# generator = gen()
+# print(generator is generator.__iter__())
+#
+# print(generator.__next__())
+# print(generator.__next__())
+# print(generator.__next__())
+
 
