@@ -182,4 +182,12 @@
 # print(generator.__next__())
 # print(generator.__next__())
 
+key = 1
 
+def encode(value: str):
+    # Dima -> [95, 67, 87, 90] -> [96, 68, 88, 91] -> Ejnb
+    return ''.join(map(lambda x: chr(ord(x) + key), value))
+
+def decode(value: str):
+    # Ejnb -> [96, 68, 88, 91] -> [95, 67, 87, 90] -> Dima
+    return ''.join(map(lambda x: chr(ord(x) - key), value))

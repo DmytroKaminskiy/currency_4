@@ -20,14 +20,14 @@ class AnalyticsMiddleware:
 
         response = self.get_response(request)
         if response.status_code == 200:
-            pass
-            # TODO
             # https://stackoverflow.com/questions/52024039/how-to-use-update-or-create-and-f-to-create-a-new-record-in-django
-            # request_method = choices.REQUEST_METHOD_CHOICES_MAPPER[request.method]
-            # Analytics.objects.update_or_create(
-            #     request_method=request_method, path=request.path,
-            #     defaults={'counter': F('counter') + 1}
-            # )
+            request_method = choices.REQUEST_METHOD_CHOICES_MAPPER[request.method]
+            obj, created = Analytics.objects.get_or_create(
+                request_method=request_method, path=request.path,
+                defaults={'counter': 1}
+            )
+            if not created:
+                Analytics.objects.filter(pk=obj.pk).update(counter=F('counter') + 1)
             # counter = Analytics.objects.filter(
             #     request_method=request_method, path=request.path).last()
             # if counter:

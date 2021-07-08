@@ -18,7 +18,6 @@ def generate_password(request):
 
 
 def index(request):
-    print('INDEX')
     return render(request, 'index.html')
 
 
