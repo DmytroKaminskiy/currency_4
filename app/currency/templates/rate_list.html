@@ -3,18 +3,34 @@
 {% block main_content %}
     <a href="/currency/rate/create/">Create Rate</a>
 
-    {% for rate in object_list %}
-        <p>
-            ID: {{ rate.id }}
-            Type: {{ rate.get_type_display }}
-            Buy: {{ rate.buy }}
-            Sale: {{ rate.sale }}
-            Source: {{ rate.bank.name }}
-            Created: {{ rate.created }}
-{#            <a href="/currency/rate/update/{{ rate.id }}/">Edit</a>#}
-{#            <a href="{% url 'rate-details' rate.id %}">Edit</a>#}
-            <a href="{% url 'currency:rate-details' pk=rate.id %}">Details</a>
-            <a href="{% url 'currency:rate-update' pk=rate.id %}">Edit</a>
-        </p>
-    {% endfor %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">ID</th>
+            <th scope="col">Type</th>
+            <th scope="col">Sale</th>
+            <th scope="col">Buy</th>
+            <th scope="col">Source Name</th>
+            <th scope="col">Created</th>
+            <th scope="col">Details</th>
+            <th scope="col">Edit</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for rate in object_list %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ rate.id }}</td>
+            <td>{{ rate.get_type_display }}</td>
+            <td>{{ rate.sale }}</td>
+            <td>{{ rate.buy }}</td>
+            <td>{{ rate.bank.name }}</td>
+            <td>{{ rate.created }}</td>
+            <td><a href="{% url 'currency:rate-details' pk=rate.id %}">Details</a></td>
+            <td><a href="{% url 'currency:rate-update' pk=rate.id %}">Edit</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock main_content %}

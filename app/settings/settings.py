@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'rangefilter',
     'import_export',
+    'active_link',
 
     'currency',
     'accounts',
@@ -118,6 +119,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / '..' / 'static_content'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -146,6 +149,10 @@ SHELL_PLUS_IMPORTS = [
 AUTH_USER_MODEL = 'accounts.User'
 
 LOGIN_REDIRECT_URL = reverse_lazy('index')
+
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'currency' / 'static',
+# ]
 
 try:
     from settings.settings_local import *
