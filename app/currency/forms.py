@@ -7,7 +7,7 @@ class RateForm(forms.ModelForm):
     class Meta:
         model = Rate
         fields = (
-            # 'type',
+            'type',
             'sale',
             'buy',
             'bank',
