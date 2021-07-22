@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView, View
 from django.core.mail import send_mail
 
 from currency.utils import generate_password as gp
 from currency.tasks import send_email_in_background
 
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from currency.forms import RateForm, ContactUsCreate
 from currency.models import Rate, ContactUs
@@ -91,3 +91,19 @@ class CreateContactUs(CreateView):
         # print_hello_world.delay()
 
         return super().form_valid(form)
+
+
+# class RateListApi(View):
+#     def get(self, request):
+#         rates = Rate.objects.all()
+#         results = []
+#         for rate in rates:
+#             results.append({
+#                 'id': rate.id,
+#                 'sale': float(rate.sale),
+#                 'buy': float(rate.buy),
+#                 'bank': rate.bank_id,
+#             })
+#         import json
+#         return JsonResponse(results, safe=False)
+#         # return HttpResponse(json.dumps(results), content_type='application/json')

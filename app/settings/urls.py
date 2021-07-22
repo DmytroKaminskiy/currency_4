@@ -6,8 +6,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 
+# from api.views import RateList, RateDetails
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # path('rates/', RateList.as_view()),
+    # path('rates/<int:pk>/', RateDetails.as_view()),
+
+    path('api/', include('api.urls')),
     path('', index, name='index'),
     path('auth/', include('django.contrib.auth.urls')), # new
     path('currency/', include('currency.urls')),

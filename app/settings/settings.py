@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'rangefilter',
     'import_export',
     'active_link',
+    'rest_framework',
 
     'currency',
     'accounts',
