@@ -191,3 +191,23 @@ def encode(value: str):
 def decode(value: str):
     # Ejnb -> [96, 68, 88, 91] -> [95, 67, 87, 90] -> Dima
     return ''.join(map(lambda x: chr(ord(x) - key), value))
+
+'''
+1. Показать список всех банков.
+2. Создать CRUD операции для модели ContactUs (отправить письмо при создании) Serializer.create
+3. Добавить сортировку и фильтры для ContactUs
+4. Фильтр по поиску
+
+** к пункту 1 показать все рейты связаные с банком (сорс)
+{
+"results": [
+    {
+    "id": 1,
+    "name": "privatbank",
+    "rates_set": [
+      {"id": 1, "sale": 23, "buy": 24...}
+    ]
+    }
+]
+}
+'''
