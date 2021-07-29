@@ -1,4 +1,3 @@
-import debug_toolbar
 from currency.views import index
 from django.conf.urls.static import static
 
@@ -19,8 +18,14 @@ urlpatterns = [
     path('auth/', include('django.contrib.auth.urls')), # new
     path('currency/', include('currency.urls')),
     path('accounts/', include('accounts.urls')),
-    path('__debug__/', include(debug_toolbar.urls)),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+
+    urlpatterns.append(
+        path('__debug__/', include(debug_toolbar.urls))
+    )
 
 urlpatterns.extend(static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
 urlpatterns.extend(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
