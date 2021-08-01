@@ -210,4 +210,9 @@ def decode(value: str):
     }
 ]
 }
+
+1. Rate - CRUD - API
+2. parse_monobank + parse_vkurse
+
+** Registration
 '''

@@ -11,6 +11,9 @@ class Bank(models.Model):
     url = models.URLField()
     original_url = models.URLField()
 
+    def __str__(self):
+        return f'Bank {self.name}'
+
 
 class Rate(models.Model):
     # def get_{field_name}_display()
@@ -26,7 +29,7 @@ class Rate(models.Model):
     # bank = models.ForeignKey('currency.Bank')
 
     def __str__(self):
-        return f'Rate id: {self.id}'
+        return f'Rate id: {self.id} {self.bank_id}'
 
 
 class ContactUs(models.Model):

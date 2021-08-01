@@ -8,3 +8,4 @@ from settings.settings import *
 # EMAIL_HOST_PASSWORD = 'qwerty123456qwerty'
 
 DEBUG = False
+CELERY_TASK_ALWAYS_EAGER = True

@@ -9,7 +9,7 @@ makemigrations:
 	$(manage_py) makemigrations
 
 worker:
-	cd app && celery -A settings worker -l info
+	cd app && celery -A settings worker -l debug
 
 beat:
 	cd app && celery -A settings beat -l info

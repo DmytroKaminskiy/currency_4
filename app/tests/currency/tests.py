@@ -33,7 +33,7 @@ def test_create_rate_empty_form_data(client):
     }
 
 
-def test_create_rate_invalid_form_data(client):
+def test_create_rate_invalid_form_data(client, fake):
     rates_initial_count = Rate.objects.count()
     form_data = {
         'type': choices.RATE_TYPE_USD,
@@ -62,3 +62,22 @@ def test_create_rate_success(client):
     assert response.status_code == 302
     assert response.url == '/currency/rate/list/'
     assert Rate.objects.count() == rates_initial_count + 1
+
+
+def test_create_contact_us(client, mailoutbox, settings, fake):
+    email_from = fake.email()
+    form_data = {
+        'email_from': email_from,  # TODO
+        'subject': 'subject',
+        'message': 'Message',
+    }
+    response = client.post('/currency/contact-us/create/', data=form_data)
+    assert response.status_code == 302
+    assert response.url == '/'
+    assert len(mailoutbox) == 1
+    mail = mailoutbox[0]
+    assert mail.to == ['fenderoksp@gmail.com']
+    assert mail.cc == []
+    assert mail.bcc == []
+    assert mail.reply_to == []
+    # assert mail.from_email == settings.EMAIL_HOST_USER

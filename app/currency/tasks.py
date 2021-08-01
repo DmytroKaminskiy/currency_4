@@ -69,7 +69,7 @@ def send_email_in_background(body):
     send_mail(
         'Contact Us from Client',
         body,
-        'testtestapp454545@gmail.com',
+        'testtestapp454545@gmail.com',  # TODO
         ['fenderoksp@gmail.com'],
         fail_silently=False,
     )
