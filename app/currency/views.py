@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView, View
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView, View, TemplateView
 from django.core.mail import send_mail
+from currency import choices, consts
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 from currency.utils import generate_password as gp
 from currency.tasks import send_email_in_background
@@ -9,7 +13,7 @@ from currency.tasks import send_email_in_background
 from django.http import HttpResponse, JsonResponse
 
 from currency.forms import RateForm, ContactUsCreate
-from currency.models import Rate, ContactUs
+from currency.models import Rate, ContactUs, Bank
 
 
 def generate_password(request):
@@ -61,6 +65,32 @@ class RateUpdateView(UpdateView):
 class RateDeleteView(DeleteView):
     queryset = Rate.objects.all()
     success_url = reverse_lazy('currency:rate-list')
+
+
+def get_latest_rates():
+    if consts.CACHE_KEY_LATEST_RATES in cache:
+        return cache.get(consts.CACHE_KEY_LATEST_RATES)
+
+    object_list = []
+    for bank in Bank.objects.all():
+        for ct_value, ct_display in choices.RATE_TYPE_CHOICES:
+            latest_rate = Rate.objects \
+                .filter(type=ct_value, bank=bank).order_by('-created').first()
+            if latest_rate is not None:
+                object_list.append(latest_rate)
+
+    cache.set(consts.CACHE_KEY_LATEST_RATES, object_list, 60 * 60 * 8)
+    return object_list
+
+
+# @method_decorator(cache_page(60 * 60 * 8), name='dispatch')
+class LatestRates(TemplateView):
+    template_name = 'latest_rates.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object_list'] = get_latest_rates()
+        return context
 
 
 class CreateContactUs(CreateView):
