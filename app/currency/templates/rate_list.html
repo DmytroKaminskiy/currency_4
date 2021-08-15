@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
+{% load pagination %}
 
 {% block main_content %}
     <a href="/currency/rate/create/">Create Rate</a>
+
+    <form method="get">
+        {{ filter.form.as_p }}
+        <button type="submit" class="btn btn-primary">
+            <span class="glyphicon glyphicon-search"></span> Apply Filters
+        </button>
+    </form>
 
     <table class="table table-striped">
         <thead>
@@ -22,7 +30,7 @@
         <tr>
             <th scope="row">{{ forloop.counter }}</th>
             <td>{{ rate.id }}</td>
-            <td>{{ rate.get_type_display }}</td>
+            <td>{{ rate.get_type_display|lower }}</td>
             <td>{{ rate.sale }}</td>
             <td>{{ rate.buy }}</td>
             <td>{{ rate.bank.name }}</td>
@@ -33,4 +41,8 @@
         {% endfor %}
         </tbody>
     </table>
+
+    {% if is_paginated %}
+      {% pagination page_obj %}
+    {% endif %}
 {% endblock main_content %}

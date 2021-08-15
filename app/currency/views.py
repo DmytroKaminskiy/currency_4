@@ -14,6 +14,8 @@ from django.http import HttpResponse, JsonResponse
 
 from currency.forms import RateForm, ContactUsCreate
 from currency.models import Rate, ContactUs, Bank
+from django_filters.views import FilterView
+from currency.filters import RateFilter
 
 
 def generate_password(request):
@@ -25,9 +27,11 @@ def index(request):
     return render(request, 'index.html')
 
 
-class RateListView(ListView):
+class RateListView(FilterView):
     template_name = 'rate_list.html'
     queryset = Rate.objects.all().select_related('bank')
+    paginate_by = 25
+    filterset_class = RateFilter
 
 
 class RateDetailView(DetailView):

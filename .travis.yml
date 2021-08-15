@@ -17,8 +17,6 @@ script:
 4 threading, multiprocessing
 5 docker
 6 docker
-7 cache signals
-8 Пагинация и фильтрация таблицы.
-9 FastApi, webhooks
-10 javascript
+7 FastApi, webhooks
+8 javascript
 '''
