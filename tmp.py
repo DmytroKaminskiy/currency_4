@@ -215,4 +215,14 @@ def decode(value: str):
 2. parse_monobank + parse_vkurse
 
 ** Registration
+
+
+1 multiprocessing
+2 deploy
+3 docker
+4 docker-compose
+
+5 fast api / zoom api
+6 Парсер work.ua / regular expressions
+7 javascript
 '''
