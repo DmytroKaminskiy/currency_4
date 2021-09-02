@@ -2,6 +2,9 @@ SHELL := /bin/bash
 
 manage_py := python ./app/manage.py
 
+build:
+	docker-compose down && docker-compose up -d
+
 runserver:
 	$(manage_py) runserver 0:8000
 
@@ -37,3 +40,6 @@ gunicorn:
 
 show-coverage:  ## open coverage HTML report in default browser
 	python3 -c "import webbrowser; webbrowser.open('.pytest_cache/coverage/index.html')"
+
+services:
+	docker run -d -p 11211:11211 memcached && docker run -d -p 5672:5672 rabbitmq:3.8

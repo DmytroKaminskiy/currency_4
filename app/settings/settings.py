@@ -5,16 +5,22 @@ from celery.schedules import crontab
 from django.urls import reverse_lazy
 from datetime import timedelta
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  # take environment variables from .env.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# TODO
-SECRET_KEY = 'django-insecure-19l^l+ah&z%*4s@mee=bu=7(g$l@y=e7wipfc*4e6%zrh*zms9srgdrg'
+
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv('DEBUG') == 'true'
+# DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(';')
 
 
 # Application definition
@@ -45,7 +51,7 @@ INSTALLED_APPS = [
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
-        'LOCATION': '127.0.0.1:11211',
+        'LOCATION': f'{os.getenv("MEMCACHED_HOST", "localhost")}:{os.getenv("MEMCACHED_PORT", "11211")}',
     }
 }
 
@@ -87,13 +93,17 @@ WSGI_APPLICATION = 'settings.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ['POSTGRES_DB'],
+        'USER': os.environ['POSTGRES_USER'],
+        'PASSWORD': os.environ['POSTGRES_PASSWORD'],
+        'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
+        'PORT':  os.getenv('POSTGRES_PORT', '5432'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -148,7 +158,12 @@ INTERNAL_IPS = [
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-CELERY_BROKER_URL = 'amqp://localhost'
+CELERY_BROKER_URL = 'amqp://{0}:{1}@{2}:{3}//'.format(
+    os.environ['RABBITMQ_DEFAULT_USER'],
+    os.environ['RABBITMQ_DEFAULT_PASS'],
+    os.getenv('RABBITMQ_DEFAULT_HOST', '127.0.0.1'),
+    os.getenv('RABBITMQ_DEFAULT_PORT', '5672'),
+)
 
 CELERY_BEAT_SCHEDULE = {
     'parse_privatbank': {
