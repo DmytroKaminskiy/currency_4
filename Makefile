@@ -1,18 +1,23 @@
 SHELL := /bin/bash
 
-manage_py := python ./app/manage.py
+manage_py := docker exec -it backend python ./app/manage.py
 
 build:
-	docker-compose down && docker-compose up -d
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+
+down:
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
 
 runserver:
-	$(manage_py) runserver 0:8000
+	$(manage_py) runserver 0:8001
+
+collectstatic:
+	$(manage_py) collectstatic --noinput && \
+	docker cp backend:/tmp/static /tmp/static && \
+	docker cp /tmp/static nginx:/etc/nginx/static
 
 makemigrations:
 	$(manage_py) makemigrations
-
-worker:
-	cd app && celery -A settings worker -l debug
 
 beat:
 	cd app && celery -A settings beat -l info
@@ -40,6 +45,3 @@ gunicorn:
 
 show-coverage:  ## open coverage HTML report in default browser
 	python3 -c "import webbrowser; webbrowser.open('.pytest_cache/coverage/index.html')"
-
-services:
-	docker run -d -p 11211:11211 memcached && docker run -d -p 5672:5672 rabbitmq:3.8
