@@ -10,7 +10,7 @@ from django.utils.decorators import method_decorator
 from currency.utils import generate_password as gp
 from currency.tasks import send_email_in_background
 
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 
 from currency.forms import RateForm, ContactUsCreate
 from currency.models import Rate, ContactUs, Bank
@@ -40,13 +40,21 @@ class RateDetailView(DetailView):
 
 
 def rate_create(request):
+
     if request.method == 'POST':
-        form_data = request.POST
-        form = RateForm(form_data)
-        if form.is_valid():
-            form.save()
-            # return HttpResponseRedirect(reverse('currency:rate-list'))
-            return redirect('currency:rate-list')
+        csrftoken = request.COOKIES.get('csrftoken')
+
+        lock = cache.add(csrftoken, True, 10)
+
+        if lock:
+            form_data = request.POST
+            form = RateForm(form_data)
+            if form.is_valid():
+                form.save()
+                # return HttpResponseRedirect(reverse('currency:rate-list'))
+                return redirect('currency:rate-list')
+        else:
+            return HttpResponseBadRequest('Too many requests')
 
     elif request.method == 'GET':
         form = RateForm()

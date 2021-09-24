@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ajax Example</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("button").click(function () {
+                $.ajax({
+                    url: "https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5",
+                    dataType: "json",
+                    success: function (result) {
+                        console.log(result);
+                        let text = '';
+                        for (let i = 0; i < result.length; i++) {
+                            text += `<div>Type: ${result[i].ccy} Buy: ${result[i].buy} Sale: ${result[i].sale}</div>`;
+                        }
+                        $("#result").html(text);
+                    }
+                });
+            });
+        });
+    </script>
+
+</head>
+<body>
+
+<button>Click me</button>
+<div id="result"></div>
+
+</body>
+</html>
