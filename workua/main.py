@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-from writers import TxtWriter, CSVWriter
+from writers import TXTWriter, CSVWriter, JSONWriter, DBWriter
 
 
 ROOT = 'https://www.work.ua'
@@ -12,8 +12,10 @@ full_url = ROOT + '/ru/jobs/'
 page = 0
 
 writers_list = [
-    TxtWriter(),
+    TXTWriter(),
     CSVWriter(),
+    JSONWriter(),
+    DBWriter(),
 ]
 
 while True:
@@ -47,5 +49,5 @@ while True:
         for writer in writers_list:
             writer.write(job_info)
 
-        # file.write(f"{job_info['href']} {job_info['title']} {job_info['id']}\n")
-        # result.append(job_info)
+for writer in writers_list:
+    writer.destruct()
